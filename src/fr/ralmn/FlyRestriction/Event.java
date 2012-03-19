@@ -20,10 +20,13 @@ public class Event implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerSpeedHack(PlayerMoveEvent e){
 		Player pl = e.getPlayer();
+		boolean a = (e.getFrom().getBlockY() > e.getTo().getBlockY());
+		if(a)
+			return;
 		if(!(pl.getGameMode() == GameMode.CREATIVE) && !plugin.canRun(pl.getName())){
 			double speed = e.getFrom().distance(e.getTo()) * 5;
-			if(speed > plugin.getConfig().getInt("settings.runmax")){
-				pl.kickPlayer(ChatColor.RED +  "Le Speed Hack est interdit sur le serveur !");
+			if((int)speed > plugin.getConfig().getInt("settings.runmax")){
+				pl.kickPlayer(ChatColor.RED +  plugin.getConfig().getString("message.kick.run"));
 			}
 		}
 		
